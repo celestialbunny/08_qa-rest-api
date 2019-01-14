@@ -25,6 +25,13 @@ let sortAnswers = function(a, b) {
     return b.votes - a.votes;
 }
 
+const AnswerSchema = new Schema({
+    text: String,
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now},
+    votes: {type: Number, default: 0}
+})
+
 AnswerSchema.method("update", function(updates, callback) {
     Object.assign(this, updates, {updatedAt: new Date()});
     this.parent().save(callback);
@@ -38,13 +45,6 @@ AnswerSchema.method("vote", function(vote, callback) {
     }
     this.parent().save(callback);
 });
-
-const AnswerSchema = new Schema({
-    text: String,
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now},
-    votes: {type: Number, default: 0}
-})
 
 const QuestionSchema = new Schema({
     text: String,

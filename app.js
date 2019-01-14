@@ -36,6 +36,21 @@ db.once("open", function(){
  * End of connection
  */
 
+ /**
+  * Allow API to be used by other browser
+  */
+app.use(function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    if(req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "PUT,POST,DELETE");
+        return res.status(200).json({});
+        
+    }
+    next();
+});
+// End of API authorization
+
 // catch 404 error and forward to error handler
 app.use(function(req, res, next){
     let error = new Error("Not Found");
